@@ -1,0 +1,4 @@
+Predictor,Coefficient,Odds_Ratio,CI_Lower,CI_Upper,P_Value
+const,-1.9774,0.1384,0.1204,0.1591,0.0
+naads_training_participation,0.4906,1.6333,0.8993,2.9666,0.1071
+farmer_group_member_clean,0.5078,1.6616,0.7881,3.503,0.1821

@@ -33,3 +33,30 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+
+
+# Research data protection
+# Do not publish raw or restricted survey microdata without authorization
+/data/raw/*
+!/data/raw/README.md
+
+# Local processed data may contain record-level information
+/data/processed/*
+
+# Keep external source downloads out of Git by default
+/data/external/*
+
+# Allow documentation explaining the data folders
+!/data/README.md
+
+# Jupyter notebooks may contain outputs or sensitive information.
+# Review notebooks before committing them.
+
+```gitignore
+# Keep the original analysis notebook and temporary backup private
+/notebooks/02_dataset_assessment.ipynb
+/notebooks/02_dataset_assessment_public_backup_*.ipynb
+
+# Ignore Jupyter checkpoint directories at any level
+**/.ipynb_checkpoints/
+```
