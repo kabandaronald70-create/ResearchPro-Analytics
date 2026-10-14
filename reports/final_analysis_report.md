@@ -82,6 +82,31 @@ dataset for robustness analysis.
 | Household-head sex | Male | 21.40% |
 | Household-head sex | Female | 13.06% |
 
+### 4.2 Sample Reconciliation
+
+Several household counts appear across this analysis. They are
+not contradictions; each reflects a different stage of the
+analytical pipeline.
+
+| Stage | Households | Reason for exclusion |
+|---|---:|---|
+| AGSEC1 agricultural households | 2,191 | — |
+| − No valid seed-type record in either visit | −213 | Outcome could not be resolved as 0/1 |
+| = Households with a known adoption outcome | 1,978 | — |
+| − Missing data on one or more predictors | −40 | Complete-case analysis |
+| = Final analytical sample | 1,938 | — |
+
+An earlier draft of this analysis reported a sample of 1,962,
+using a stricter classification rule that required a household
+to appear in both agricultural visits to be classified as an
+adopter. The current analysis uses an *ever-adopter* rule:
+a household is counted as an adopter if at least one visit
+confirms improved-seed use. This reclassifies 207 seasonally
+inconsistent households as adopters (see Section 7) and adds
+14 households that appeared only in the second visit's
+agricultural module. The final sample of 1,938 reflects these
+changes plus complete-case filtering on the predictors.
+
 ## 5. Unadjusted Associations
 
 - **NAADS training participation:** +10.3 percentage points
