@@ -1,5 +1,18 @@
 # ResearchPro Analytics
 
+## 🔗 Live Dashboard
+
+Explore the results interactively:
+
+**[researchpro-analytics.streamlit.app](https://researchpro-analytics-zmki4p7ztkb4ffghg6kcnc.streamlit.app/)**
+
+The dashboard surfaces the fitted logistic regression models,
+crop-level seed-use patterns, and predictive performance metrics
+from the committed reports. No raw micro-data is displayed.
+
+---
+
+
 **A portfolio project demonstrating survey data analysis, statistical inference, regression modelling, and responsible research practices.**
 
 ## Overview
