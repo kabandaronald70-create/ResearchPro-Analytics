@@ -1,233 +1,287 @@
-Project: ResearchPro Analytics
-Current state: MVP shipped (analysis + tests + CI + dashboard + README polish)
-Goal: Reference-quality research repository (statistician + engineer approved)
-Effort: ~5 hours/week × 12 weeks
+# ResearchPro Analytics — 12-Week Roadmap
 
-Phase 1 — Software foundation (Weeks 1–3)
-Week 1 — Packaging and modernization
-□ Create pyproject.toml (PEP 621 layout)
-□ Move src/*.py → src/researchpro/ package
-□ Add __init__.py files
-□ Create .pre-commit-config.yaml (nbstripout + leak-check)
-□ Create Makefile (install, test, lint, dashboard, leak-check)
-□ Verify: fresh venv → pip install -e ".[dev,dashboard]" → pytest tests/ (25 pass)
-□ Commit and push
-Considerations:
+> **Status:** Living document. Updated as the project evolves.
+> Some items may be re-scoped or deferred.
 
-Use PEP 621, not legacy setup.py
+**Project:** ResearchPro Analytics
+**Current state:** MVP shipped (analysis + tests + CI + dashboard + README polish)
+**Goal:** Reference-quality research repository (statistician + engineer approved)
+**Effort:** ~5 hours/week × 12 weeks
 
-Pin requires-python = ">=3.11"
+---
 
-Don't hardcode Windows paths anywhere
+## Phase 1 — Software foundation (Weeks 1–3)
 
-Update notebook sys.path calls if needed
+### Week 1 — Packaging and modernization
 
-Week 2 — CLI entry point
-□ Install typer
-□ Create src/researchpro/cli.py
-□ Add researchpro run --data PATH --out PATH
-□ Add researchpro dashboard
-□ Add researchpro check-data --data PATH (stub for now)
-□ Fix random seeds everywhere (random_state=42)
-□ Sort all report outputs deterministically
-□ Use logging, not print
-□ Verify: researchpro run produces byte-identical reports to the notebook
-□ Commit and push
-Considerations:
+- [ ] Create `pyproject.toml` (PEP 621 layout)
+- [ ] Move `src/*.py` → `src/researchpro/` package
+- [ ] Add `__init__.py` files
+- [ ] Create `.pre-commit-config.yaml` (nbstripout + leak-check)
+- [ ] Create `Makefile` (`install`, `test`, `lint`, `dashboard`, `leak-check`)
+- [ ] Verify: fresh venv → `pip install -e ".[dev,dashboard]"` → `pytest tests/` (25 pass)
+- [ ] Commit and push
 
-Exit codes: 0 success, 1 user error, 2 data error, 3 unexpected
+**Considerations:**
+- Use PEP 621, not legacy `setup.py`
+- Pin `requires-python = ">=3.11"`
+- Don't hardcode Windows paths anywhere
+- Update notebook `sys.path` calls if needed
 
-No silent fallbacks — raise if input missing
+### Week 2 — CLI entry point
 
-CLI calls functions in src/, doesn't duplicate logic
+- [ ] Install `typer`
+- [ ] Create `src/researchpro/cli.py`
+- [ ] Add `researchpro run --data PATH --out PATH`
+- [ ] Add `researchpro dashboard`
+- [ ] Add `researchpro check-data --data PATH` (stub for now)
+- [ ] Fix random seeds everywhere (`random_state=42`)
+- [ ] Sort all report outputs deterministically
+- [ ] Use `logging`, not `print`
+- [ ] Verify: `researchpro run` produces byte-identical reports to the notebook
+- [ ] Commit and push
 
-Week 3 — Notebook → pipeline refactor
-□ Create src/researchpro/pipeline.py (run(config) -> None)
-□ Create src/researchpro/data.py (loading + validation)
-□ Create src/researchpro/reports.py (report generation)
-□ Add PipelineConfig dataclass
-□ Shrink notebook to: intro + from researchpro.pipeline import run + a few exploration cells
-□ Add reports/pipeline_log.json (git SHA, file hashes, params, convergence)
-□ Verify: pipeline output byte-matches old notebook output
-□ Commit and push
-Considerations:
+**Considerations:**
+- Exit codes: 0 success, 1 user error, 2 data error, 3 unexpected
+- No silent fallbacks — raise if input missing
+- CLI calls functions in `src/`, doesn't duplicate logic
 
-Pure functions where possible
+### Week 3 — Notebook → pipeline refactor
 
-Cache expensive operations (functools.lru_cache)
+- [ ] Create `src/researchpro/pipeline.py` (`run(config) -> None`)
+- [ ] Create `src/researchpro/data.py` (loading + validation)
+- [ ] Create `src/researchpro/reports.py` (report generation)
+- [ ] Add `PipelineConfig` dataclass
+- [ ] Shrink notebook to: intro + `from researchpro.pipeline import run` + a few exploration cells
+- [ ] Add `reports/pipeline_log.json` (git SHA, file hashes, params, convergence)
+- [ ] Verify: pipeline output byte-matches old notebook output
+- [ ] Commit and push
 
-Don't change results during refactor — move first, improve second
+**Considerations:**
+- Pure functions where possible
+- Cache expensive operations (`functools.lru_cache`)
+- Don't change results during refactor — move first, improve second
 
-Phase 2 — Statistical depth (Weeks 4–7)
-Week 4 — Missing-data analysis
-□ Create reports/missingness_report.md
-□ Visualize missingness (missingno matrix + heatmap)
-□ Test MAR vs MCAR (missingness correlated with observed vars?)
-□ Fit logistic model with multiple imputation (20 imputations)
-□ Pool estimates using Rubin's rules
-□ Build side-by-side table: complete-case vs MI estimates
-□ Interpret: "conclusion is robust / sensitive"
-□ Commit and push
-Considerations:
+---
 
-Impute predictors only, never the outcome
+## Phase 2 — Statistical depth (Weeks 4–7)
 
-Track random seeds per imputation
+### Week 4 — Missing-data analysis
 
-Include auxiliary variables (education, sex) in imputation model
+- [ ] Create `reports/missingness_report.md`
+- [ ] Visualize missingness (`missingno` matrix + heatmap)
+- [ ] Test MAR vs MCAR (missingness correlated with observed vars?)
+- [ ] Fit logistic model with **multiple imputation** (20 imputations)
+- [ ] Pool estimates using **Rubin's rules**
+- [ ] Build side-by-side table: complete-case vs MI estimates
+- [ ] Interpret: "conclusion is robust / sensitive"
+- [ ] Commit and push
 
-Report CI widths, not just point estimates
+**Considerations:**
+- Impute predictors only, never the outcome
+- Track random seeds per imputation
+- Include auxiliary variables (education, sex) in imputation model
+- Report CI widths, not just point estimates
 
-Week 5 — Sensitivity analysis for seasonal classification
-□ Parametrize outcome definition in config (ever | both | either)
-□ Refit main model under all three definitions
-□ Create reports/sensitivity_outcome_definitions.csv
-□ Add comparison paragraph to final_analysis_report.md
-□ Optionally: ordinal logistic on adoption intensity (0/1/2 visits)
-□ Commit and push
-Considerations:
+### Week 5 — Sensitivity analysis for seasonal classification
 
-Different outcomes = different sample sizes — report each N
+- [ ] Parametrize outcome definition in config (`ever` | `both` | `either`)
+- [ ] Refit main model under all three definitions
+- [ ] Create `reports/sensitivity_outcome_definitions.csv`
+- [ ] Add comparison paragraph to `final_analysis_report.md`
+- [ ] Optionally: ordinal logistic on adoption intensity (0/1/2 visits)
+- [ ] Commit and push
 
-Report OR, CI, p for each definition
+**Considerations:**
+- Different outcomes = different sample sizes — report each N
+- Report OR, CI, p for each definition
+- Conclusion: "male-head OR is stable across definitions in range [X, Y]"
 
-Conclusion: "male-head OR is stable across definitions in range [X, Y]"
+### Week 6 — Predictive model calibration
 
-Week 6 — Predictive model calibration
-□ Compute calibration curve (sklearn.calibration.calibration_curve)
-□ Compute Brier score + bootstrap CI
-□ Compute log loss
-□ Run decision curve analysis (net benefit vs. threshold)
-□ Add "Calibration" tab to Streamlit dashboard
-□ Create reports/calibration_analysis.md
-□ Commit and push
-Considerations:
+- [ ] Compute calibration curve (`sklearn.calibration.calibration_curve`)
+- [ ] Compute Brier score + bootstrap CI
+- [ ] Compute log loss
+- [ ] Run decision curve analysis (net benefit vs. threshold)
+- [ ] Add "Calibration" tab to Streamlit dashboard
+- [ ] Create `reports/calibration_analysis.md`
+- [ ] Commit and push
 
-Use cross-validation for calibration (small test set)
+**Considerations:**
+- Use cross-validation for calibration (small test set)
+- Report Brier decomposition (reliability, resolution, uncertainty)
+- Cox calibration intercept/slope
+- Don't over-interpret with N=393 test set
 
-Report Brier decomposition (reliability, resolution, uncertainty)
+### Week 7 — Subgroup and interaction analyses
 
-Cox calibration intercept/slope
+- [ ] **Pre-specify** subgroups before looking at data
+- [ ] Subgroups: urban/rural, NAADS yes/no, farmer group yes/no, age <40/≥40
+- [ ] Fit model with interaction terms
+- [ ] Apply Holm-Bonferroni correction for 4 tests
+- [ ] Create forest plots (subgroup ORs with CIs)
+- [ ] Create `reports/subgroup_analysis.md`
+- [ ] Add forest plot to dashboard
+- [ ] Commit and push
 
-Don't over-interpret with N=393 test set
+**Considerations:**
+- Interaction term (formal test) > stratified models
+- Every subgroup needs N + CI
+- No data dredging — pre-specify
+- Format: `| Subgroup | N | OR (95% CI) | p-interaction |`
 
-Week 7 — Subgroup and interaction analyses
-□ Pre-specify subgroups before looking at data
-□ Subgroups: urban/rural, NAADS yes/no, farmer group yes/no, age <40/≥40
-□ Fit model with interaction terms
-□ Apply Holm-Bonferroni correction for 4 tests
-□ Create forest plots (subgroup ORs with CIs)
-□ Create reports/subgroup_analysis.md
-□ Add forest plot to dashboard
-□ Commit and push
-Considerations:
+---
 
-Interaction term (formal test) > stratified models
+## Phase 3 — Documentation and reproducibility (Weeks 8–10)
 
-Every subgroup needs N + CI
+### Week 8 — Documentation site
 
-No data dredging — pre-specify
+- [ ] Install `mkdocs` + `mkdocs-material` + `mkdocstrings`
+- [ ] Create `mkdocs.yml`
+- [ ] Create `docs/` pages: Home, Methodology, Data, Findings, Limitations, API, Reproducibility
+- [ ] Write Methodology page (why logistic, outcome choice, missing-data handling, survey-design limitation)
+- [ ] Add STROBE-style checklist
+- [ ] Add "What this analysis cannot tell you" section
+- [ ] Add GitHub Action to deploy on push
+- [ ] Link from README
+- [ ] Commit and push
 
-Format: | Subgroup | N | OR (95% CI) | p-interaction |
+**Considerations:**
+- Use absolute or repo-root-relative links
+- Don't commit `site/` build output
+- Deploy from CI, not from your machine
 
-Phase 3 — Documentation and reproducibility (Weeks 8–10)
-Week 8 — Documentation site
-□ Install mkdocs + mkdocs-material + mkdocstrings
-□ Create mkdocs.yml
-□ Create docs/ pages: Home, Methodology, Data, Findings, Limitations, API, Reproducibility
-□ Write Methodology page (why logistic, outcome choice, missing-data handling, survey-design limitation)
-□ Add STROBE-style checklist
-□ Add "What this analysis cannot tell you" section
-□ Add GitHub Action to deploy on push
-□ Link from README
-□ Commit and push
-Considerations:
+### Week 9 — Data validation with Pandera
 
-Use absolute or repo-root-relative links
+- [ ] Install `pandera`
+- [ ] Create `src/researchpro/schemas.py`
+- [ ] Define schemas for AGSEC1, AGSEC4A, AGSEC4B, GSEC1
+- [ ] Encode questionnaire coding (`s4aq16 ∈ {1, 2, NA}`, etc.)
+- [ ] Add range checks (age, weights, districts)
+- [ ] Add cross-variable checks (seed use implies seed type)
+- [ ] Wire into pipeline start
+- [ ] Fill in `researchpro check-data` command
+- [ ] Commit and push
 
-Don't commit site/ build output
+**Considerations:**
+- Start lenient, tighten as you find real problems
+- Log every failed check with row indices
+- Exit code 2 on failures
+- Fail fast — run before expensive computation
 
-Deploy from CI, not from your machine
+### Week 10 — Reproducibility guarantees
 
-Week 9 — Data validation with Pandera
-□ Install pandera
-□ Create src/researchpro/schemas.py
-□ Define schemas for AGSEC1, AGSEC4A, AGSEC4B, GSEC1
-□ Encode questionnaire coding (s4aq16 ∈ {1, 2, NA}, etc.)
-□ Add range checks (age, weights, districts)
-□ Add cross-variable checks (seed use implies seed type)
-□ Wire into pipeline start
-□ Fill in researchpro check-data command
-□ Commit and push
-Considerations:
+- [ ] Generate `requirements.lock` (use `uv` or `pip-tools`)
+- [ ] Create `Dockerfile` (python:3.11-slim)
+- [ ] Create `data/README.md` (which UNPS files, where to get them)
+- [ ] Create `REPRODUCIBILITY.md` (step-by-step rerun guide)
+- [ ] Record package versions in `pipeline_log.json`
+- [ ] Verify: `docker run` produces byte-identical output
+- [ ] Commit and push
 
-Start lenient, tighten as you find real problems
+**Considerations:**
+- Don't bake raw data into Docker image — mount at runtime
+- Document all random seeds
+- Test the Docker build on a fresh machine (or CI)
 
-Log every failed check with row indices
+---
 
-Exit code 2 on failures
+## Phase 4 — Deep extension + release (Weeks 11–12)
 
-Fail fast — run before expensive computation
+### Week 11 — Pick ONE deep statistical extension
 
-Week 10 — Reproducibility guarantees
-□ Generate requirements.lock (use uv or pip-tools)
-□ Create Dockerfile (python:3.11-slim)
-□ Create data/README.md (which UNPS files, where to get them)
-□ Create REPRODUCIBILITY.md (step-by-step rerun guide)
-□ Record package versions in pipeline_log.json
-□ Verify: docker run produces byte-identical output
-□ Commit and push
-Considerations:
+Choose **one** of:
 
-Don't bake raw data into Docker image — mount at runtime
+- [ ] **Option A — Longitudinal / pseudo-panel analysis** (fixed effects, first differences)
+- [ ] **Option B — Heterogeneous treatment effects** (causal forest via `econml` or `grf`)
+- [ ] **Option C — Bayesian logistic regression** (`pymc` or `bambi`)
+- [ ] **Option D — Design-effect simulation** (Monte Carlo with ρ = 0.05, 0.10, 0.20)
 
-Document all random seeds
-
-Test the Docker build on a fresh machine (or CI)
-
-Phase 4 — Deep extension + release (Weeks 11–12)
-Week 11 — Pick ONE deep statistical extension
-Choose one of:
-
-□ Option A — Longitudinal / pseudo-panel analysis (fixed effects, first differences)
-□ Option B — Heterogeneous treatment effects (causal forest via econml or grf)
-□ Option C — Bayesian logistic regression (pymc or bambi)
-□ Option D — Design-effect simulation (Monte Carlo with ρ = 0.05, 0.10, 0.20)
 Whichever you pick:
 
-□ Create src/researchpro/extension_x.py
-□ Create notebooks/05_extension_x.ipynb (exploration)
-□ Create reports/extension_x_findings.md
-□ Add methods + sensitivity section
-□ Add to docs site
-□ Commit and push
-Considerations:
+- [ ] Create `src/researchpro/extension_x.py`
+- [ ] Create `notebooks/05_extension_x.ipynb` (exploration)
+- [ ] Create `reports/extension_x_findings.md`
+- [ ] Add methods + sensitivity section
+- [ ] Add to docs site
+- [ ] Commit and push
 
-Depth beats breadth — don't try all four
+**Considerations:**
+- Depth beats breadth — don't try all four
+- Pick the one aligned with your career target (academic → A or D, industry → B, Bayesian → C)
+- Justify method choice explicitly
 
-Pick the one aligned with your career target (academic → A or D, industry → B, Bayesian → C)
+### Week 12 — Release v1.0 + narrative
 
-Justify method choice explicitly
+- [ ] Tag `v1.0.0` (`git tag -a v1.0.0 -m "Initial public release"`)
+- [ ] Push tag (`git push origin v1.0.0`)
+- [ ] Create GitHub Release with notes
+- [ ] Create `CHANGELOG.md` (Keep a Changelog format)
+- [ ] Create `CITATION.cff`
+- [ ] Create `LICENSE` (MIT or Apache 2.0 for code)
+- [ ] Write portfolio blog post in `docs/blog/`
+- [ ] Update README with:
+  - [ ] Repo structure diagram
+  - [ ] Installation one-liner
+  - [ ] Usage examples
+  - [ ] Citation block
+- [ ] Publish blog post (LinkedIn, personal site, Medium)
+- [ ] Final "10-second test": stranger understands what/how/what for in 10 seconds
 
-Week 12 — Release v1.0 + narrative
-□ Tag v1.0.0 (git tag -a v1.0.0 -m "Initial public release")
-□ Push tag (git push origin v1.0.0)
-□ Create GitHub Release with notes
-□ Create CHANGELOG.md (Keep a Changelog format)
-□ Create CITATION.cff
-□ Create LICENSE (MIT or Apache 2.0 for code)
-□ Write portfolio blog post in docs/blog/
-□ Update README with:
-□ Repo structure diagram
-□ Installation one-liner
-□ Usage examples
-□ Citation block
-□ Publish blog post (LinkedIn, personal site, Medium)
-□ Final "10-second test": stranger understands what/how/what for in 10 seconds
-Considerations:
+**Considerations:**
+- Write executive summary for non-statisticians
+- Include a limitations box
+- Cite UNPS properly (Uganda Bureau of Statistics via World Bank LSMS-ISA)
 
-Write executive summary for non-statisticians
+---
 
-Include a limitations box
+## Progress tracker
 
-Cite UNPS properly (Uganda Bureau of Statistics via World Bank LSMS-ISA)
+| Week | Focus | Done? |
+|------|-------|-------|
+| 1 | Packaging | ☐ |
+| 2 | CLI | ☐ |
+| 3 | Pipeline refactor | ☐ |
+| 4 | Missing data | ☐ |
+| 5 | Sensitivity | ☐ |
+| 6 | Calibration | ☐ |
+| 7 | Subgroups | ☐ |
+| 8 | Docs site | ☐ |
+| 9 | Data validation | ☐ |
+| 10 | Reproducibility | ☐ |
+| 11 | Deep extension | ☐ |
+| 12 | Release + narrative | ☐ |
+
+---
+
+## Rules to keep in mind
+
+1. **Every addition must strengthen a claim you already make.**
+2. **Statistical rigor > feature count.**
+3. **Reversibility:** every commit undoable, every decision documented.
+4. **Depth beats breadth** — especially Week 11.
+5. **Don't chase frameworks** — only add tools that serve the research question.
+6. **Don't skip caveats.** "What this analysis cannot tell you" earns credibility.
+7. **Don't commit raw data.** Ever.
+
+---
+
+## Milestone markers
+
+- **End of Week 3:** "Solid engineering, well-organized"
+- **End of Week 7:** "Statistically sophisticated"
+- **End of Week 10:** "Reproducible and production-ready"
+- **End of Week 12:** "Reference-quality — would cite or hire"
+
+---
+
+## When stuck
+
+- **Statistical questions:** consult standard references (Hosmer-Lemeshow, Rubin 1987, Cox 1958, Vickers decision curves)
+- **Software questions:** check existing repos for similar patterns (scikit-learn, statsmodels, palmerpenguins)
+- **Deployment questions:** Streamlit docs, GitHub Actions docs
+- **Time budget:** if a week takes >8 hours, split it — don't rush
+
+---
+
+**Start with Week 1 when you're ready. Check off as you complete.**
