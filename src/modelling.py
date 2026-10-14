@@ -32,10 +32,7 @@ from sklearn.metrics import (
 )
 
 
-def fit_statsmodels_logit(
-    X: pd.DataFrame,
-    y: pd.Series,
-):
+def fit_statsmodels_logit(X: pd.DataFrame, y: pd.Series):
     """
     Fit a logistic regression using statsmodels with an intercept.
 
