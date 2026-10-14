@@ -1,0 +1,7 @@
+element,variable,availability,usable,decision
+Cross-sectional weight,wgt,Available in GSEC1 and AGSEC1; 0% missing.,Yes,Use wgt to produce weighted point estimates.
+Panel weights,"hwgt_W7, hwgt_wc",Present; ~5.9% missing.,Partial,Report as sensitivity check only. Do not use as primary weight.
+PSU / cluster,None,"No psu, cluster, or ea column in GSEC1 or AGSEC1.",No,Cannot compute design-based standard errors.
+Stratum,None,"No stratum or strata column. region, regurb, urban exist only as descriptors.",No,Cannot compute stratified standard errors.
+Batch,batch,"1,057 distinct values; median 1 household per batch.",No,"Fieldwork enumeration code, not a sampling cluster. Not usable as PSU proxy."
+Community EA linkage,EA_code (community only),Community files carry EA_code; household files do not.,No,No direct linkage. Document as a limitation.

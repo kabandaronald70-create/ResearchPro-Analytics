@@ -1,0 +1,1 @@
+"""ResearchPro Analytics test suite."""

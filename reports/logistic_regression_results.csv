@@ -1,4 +1,9 @@
-Predictor,Coefficient,Odds_Ratio,CI_Lower,CI_Upper,P_Value
-const,-1.9774,0.1384,0.1204,0.1591,0.0
-naads_training_participation,0.4906,1.6333,0.8993,2.9666,0.1071
-farmer_group_member_clean,0.5078,1.6616,0.7881,3.503,0.1821
+Model,Predictor,Predictor_Label,Coefficient,Odds_Ratio,CI_Lower,CI_Upper,P_Value,Observations,Pseudo_R2,LR_P_Value
+"Main model (ever-adopter, n=1938)",const,Intercept,-1.8739,0.1535,0.096,0.2454,0.0,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",naads_training_participation,NAADS training participation,0.3408,1.4061,0.8164,2.4217,0.2192,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",farmer_group_member_clean,Farmer-group membership,0.412,1.5098,0.7542,3.0225,0.2447,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",head_age_centered,Household-head age (centered),0.0005,1.0005,0.9919,1.0092,0.9111,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",head_age_centered_sq,Household-head age squared (centered),-0.0004,0.9996,0.9992,1.0001,0.1139,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",head_sex_Male,Male household head (reference: Female),0.5969,1.8164,1.2881,2.5614,0.0007,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",marital_collapsed_Married,Married (reference: Divorced/separated),0.017,1.0171,0.6169,1.6772,0.9469,1938,0.0159,0.0001
+"Main model (ever-adopter, n=1938)",marital_collapsed_Widowed/never,Widowed or never married (reference: Divorced/separated),0.0531,1.0545,0.5983,1.8587,0.8543,1938,0.0159,0.0001

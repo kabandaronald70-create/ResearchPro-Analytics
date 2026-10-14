@@ -2,16 +2,18 @@
 __pycache__/
 *.py[cod]
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
 
 # Jupyter temporary files
 .ipynb_checkpoints/
+**/.ipynb_checkpoints/
 
 # Environment variables and secrets
 .env
 .env.*
+!.env.example
 
 # IDE settings
 .vscode/
@@ -25,7 +27,7 @@ Thumbs.db
 .coverage
 htmlcov/
 
-# Temporary files
+# Temporary files and logs
 *.tmp
 *.log
 
@@ -34,29 +36,24 @@ build/
 dist/
 *.egg-info/
 
-
-# Research data protection
-# Do not publish raw or restricted survey microdata without authorization
+# Protect raw or restricted survey data
 /data/raw/*
 !/data/raw/README.md
 
-# Local processed data may contain record-level information
+# Protect processed data that may contain household-level records
 /data/processed/*
 
-# Keep external source downloads out of Git by default
+# Keep external source downloads out of Git
 /data/external/*
 
-# Allow documentation explaining the data folders
+# Allow documentation for data folders
 !/data/README.md
 
-# Jupyter notebooks may contain outputs or sensitive information.
-# Review notebooks before committing them.
-
-```gitignore
-# Keep the original analysis notebook and temporary backup private
+# Keep the original analysis notebook private
 /notebooks/02_dataset_assessment.ipynb
+
+# Keep temporary notebook backups private
 /notebooks/02_dataset_assessment_public_backup_*.ipynb
 
-# Ignore Jupyter checkpoint directories at any level
-**/.ipynb_checkpoints/
-```
+# Keep local dependency-file backups private
+requirements.txt.backup

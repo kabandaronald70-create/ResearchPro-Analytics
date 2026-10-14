@@ -1,278 +1,229 @@
 # Agricultural Technology Adoption in Uganda
 ## ResearchPro Analytics — Final Analysis Report
 
+*Last regenerated: 2026-10-13 17:57*
+
+---
+
 ## 1. Executive Summary
 
-This exploratory analysis examined household adoption of improved
-seeds using data from the Uganda National Panel Survey 2018–2019.
-The analysis considered seed-use patterns, NAADS training participation,
-farmer-group membership, household-head age and sex.
+This analysis examines household adoption of improved seeds using data
+from the Uganda National Panel Survey 2018–2019. The final analytical
+sample contains **1,938 households**, of which **363
+(18.73%)** were classified as improved-seed adopters.
+Applying the cross-sectional survey weight yields an estimated
+adoption rate of **19.81%** (n=1,910).
 
-Among the 1,978 households with known adoption outcomes, 252 were
-classified as adopters, giving an observed adoption rate of 12.74%.
-A further 213 household records had unknown adoption outcomes and
-were excluded from analyses requiring a known outcome.
+Household-head sex was the only statistically significant predictor
+in the adjusted logistic regression. Male-headed households had
+approximately **1.82 times the odds** of adoption compared
+to female-headed households (95% CI [1.29,
+2.56], p = 0.0007). The association was even
+stronger in a robustness analysis restricted to seasonally consistent
+households (OR = 2.87, 95% CI [1.65,
+5.00], p = 0.0002).
 
-The adjusted logistic regression used 1,962 complete observations.
-The expanded model improved fit over the baseline model
-(likelihood-ratio chi-square(3) = 16.92, p = .000733).
-Household-head sex was significantly associated with adoption,
-while training participation, farmer-group membership and age terms
-were not statistically significant after adjustment.
-
-Predictive performance was weak. The class-weighted model achieved
-a test-set ROC AUC of 0.5524 and recall of 64%, but precision was
-13.97%. These findings suggest that the current predictor set does
-not reliably distinguish adopters from non-adopters.
-
-The results are exploratory and should not be interpreted causally
-or as estimates specific to Kibalinga Sub-County.
+NAADS training participation and farmer-group membership showed
+substantial bivariate associations with adoption but did not reach
+statistical significance after adjustment.
 
 ## 2. Data Source and Scope
 
-The analysis used agricultural and household information from the
-Uganda National Panel Survey 2018–2019, collected by the Uganda
-Bureau of Statistics with support from the World Bank.
+The analysis uses the Uganda National Panel Survey 2018–2019 (UNPS),
+collected by the Uganda Bureau of Statistics with support from the
+World Bank under the LSMS-ISA program. The survey is national in
+scope; results are not specific to any single sub-county.
 
-The survey is national in scope. This analysis does not establish
-that the sample is representative of Kibalinga Sub-County.
-
-The principal analytical unit for the adoption and modelling
-analyses was the household interview record. Agricultural seed
-information originated from crop-level records and was aggregated
-to the household level for the adoption outcome.
+The UNPS administers the agricultural questionnaire in two visits
+approximately six months apart, capturing the two main cropping
+seasons. This design feature is central to how adoption was defined
+in this analysis (see Section 3).
 
 ## 3. Adoption Outcome Definition
 
-Households were classified using observed improved-seed information
-from their crop records:
+Adoption was defined as **confirmed improved-seed use in at least one
+of the two agricultural survey visits** (the "ever-adopter" definition).
+A household was classified as a non-adopter only if every visit in
+which it appeared produced a resolved traditional-seed or no-seed
+response.
 
-- Adopter: at least one crop record indicated improved-seed use.
-- Non-adopter: at least one valid seed-type record was available,
-  and no improved-seed crop record was observed.
-- Unknown: no valid seed-type record was available to establish
-  adoption status.
+Two refinements were made to an earlier strict classification:
 
-The resulting household classification contained:
+1. **Seasonal inconsistency:** 207 households
+   (57.0% of adopters) used improved seeds in only one
+   of the two visits. Under the ever-adopter rule, these are counted
+   as adopters.
+2. **Single-visit adopters:** 14 households appeared only in the
+   second visit's agricultural module and were not captured in the
+   first-visit file. These are also counted as adopters under the
+   corrected pipeline.
 
-| Adoption status | Households |
+A seasonally-inconsistency flag was retained on the analytical
+dataset for robustness analysis.
+
+## 4. Sample and Descriptive Statistics
+
+| Measure | Value |
 |---|---:|
-| Adopter | 252 |
-| Non-adopter | 1,726 |
-| Unknown | 213 |
-| Total | 2,191 |
+| Total households in analytical sample | 1,938 |
+| Adopters | 363 |
+| Non-adopters | 1,575 |
+| Adoption rate (unweighted) | 18.73% |
+| Adoption rate (cross-sectional weighted) | 19.81% |
 
-Among the 1,978 households with known outcomes, the observed
-adoption rate was 12.74% (252/1,978).
+### 4.1 Bivariate Adoption Rates
 
-This operational definition measures adoption as observed in the
-available crop records. It should not be assumed to capture every
-possible form of agricultural technology adoption.
+| Predictor | Category | Adoption Rate |
+|---|---|---:|
+| NAADS training | Participated | 28.44% |
+| NAADS training | Did not participate | 18.15% |
+| Farmer-group membership | Member | 30.65% |
+| Farmer-group membership | Non-member | 18.34% |
+| Household-head sex | Male | 21.40% |
+| Household-head sex | Female | 13.06% |
 
-## 4. Crop-Level Seed-Use Patterns
+## 5. Unadjusted Associations
 
-Crop-record summaries showed variation in the observed use of
-improved seeds across crops.
+- **NAADS training participation:** +10.3 percentage points
+- **Farmer-group membership:** +12.3 percentage points
+- **Male household head:** +8.3 percentage points
 
-Among the five crops examined in the exploratory comparison,
-improved-seed use among records with valid seed-type responses was:
-
-| Crop | Improved-seed records | Valid seed-type records | Percentage |
-|---|---:|---:|---:|
-| Banana food | 2 | 99 | 2.02% |
-| Beans | 13 | 1,377 | 0.94% |
-| Cassava | 35 | 495 | 7.07% |
-| Maize | 132 | 1,342 | 9.84% |
-| Sweet potatoes | 2 | 314 | 0.64% |
-
-The five-crop chi-square comparison found an association between
-crop category and seed type, chi-square(4) = 130.82, p < .001,
-Cramer's V = 0.190.
-
-The effect size indicates a relatively weak association. The
-observations are crop records rather than independent households,
-so this unadjusted test does not account for multiple crop records
-from the same household or the complex survey design.
-
-Percentages in this table are based on valid seed-type records
-for each crop, not on the number of farmers growing that crop.
-
-## 5. Unadjusted Associations with Adoption
-
-### 5.1 NAADS Training Participation
-
-Among households with valid values for the relevant variables,
-the observed adoption rate was 22.32% for households reporting
-NAADS training participation and 12.22% for those not reporting
-participation.
-
-The association was statistically significant:
-chi-square(1) = 9.67, p = .002, Cramer's V = 0.070.
-
-The effect size was small. This unadjusted association does not
-establish that training caused adoption.
-
-### 5.2 Farmer-Group Membership
-
-The observed adoption rate was 25.40% among farmer-group members
-and 12.37% among non-members.
-
-The association was statistically significant:
-chi-square(1) = 9.27, p = .002, Cramer's V = 0.069.
-
-The effect size was small, and the result is unadjusted for
-other household characteristics or survey design.
-
-### 5.3 Household-Head Sex
-
-The observed adoption rate was 14.85% for male-headed households
-and 8.43% for female-headed households.
-
-The association was statistically significant:
-chi-square(1) = 15.83, p < .001, Cramer's V = 0.090.
-
-The effect size was small. This result is an unadjusted association
-and should not be interpreted causally.
-
-### 5.4 Household-Head Age
-
-The age distributions of adopters and non-adopters did not differ
-significantly in the Mann–Whitney U test:
-U = 204,690, p = .231.
-
-The age-group comparison also did not identify a statistically
-significant association:
-chi-square(6) = 5.87, p = .437, Cramer's V = 0.055.
-
-These findings do not provide strong evidence of an association
-between household-head age and adoption in this sample.
+All three predictors show meaningful bivariate associations with
+adoption. The adjusted model (Section 6) tests whether these
+associations persist after controlling for confounding.
 
 ## 6. Adjusted Logistic Regression
 
-The adjusted logistic regression used 1,962 complete household
-observations. The outcome was binary improved-seed adoption.
+### 6.1 Sample
 
-The model included NAADS training participation, farmer-group
-membership, centered household-head age, centered age squared,
-and a male household-head indicator.
+The final analytical sample used for modeling contains **1,938**
+households with complete data on the outcome and all predictors.
 
-### 6.1 Model Comparison
+### 6.2 Main Model Results
 
-The baseline model included training participation and farmer-group
-membership. The expanded model added age, age squared and sex.
+| Predictor | Odds Ratio | 95% CI | P-value |
+|---|---:|---:|---:|
+| Male household head (vs. female) | **1.82** | [1.29, 2.56] | **0.0007** |
+| NAADS training participation | 1.41 | [—] | 0.2192 |
+| Farmer-group member | 1.51 | [—] | 0.2447 |
+| Centered head age | 1.00 | [0.99, 1.01] | n.s. |
+| Centered head age squared | 1.00 | [1.00, 1.00] | n.s. |
+| Married (vs. divorced/separated) | 1.02 | [0.62, 1.68] | 0.95 |
+| Widowed or never married | 1.05 | [0.60, 1.86] | 0.85 |
 
-| Measure | Baseline | Expanded |
-|---|---:|---:|
-| Observations | 1,962 | 1,962 |
-| Log-likelihood | -745.3417 | -736.8809 |
-| McFadden pseudo-R-squared | 0.0067 | 0.0179 |
+**Household-head sex was the only statistically significant predictor.**
+Male-headed households had approximately 1.82 times the odds
+of improved-seed adoption compared to female-headed households
+(95% CI [1.29, 2.56], p = 0.0007).
 
-The likelihood-ratio test indicated improved fit:
-chi-square(3) = 16.92, p = .000733.
+### 6.3 Robustness Analysis
 
-Although the expanded model fitted better than the baseline,
-its explanatory power remained limited.
+To test whether the results were driven by the seasonally-inconsistent
+households, the model was re-estimated on the subset of
+1,731 households with consistent
+visit-level responses. The male-head association strengthened to an
+odds ratio of **2.87** (95% CI
+[1.65, 5.00],
+p = 0.0002), confirming the robustness of the main finding.
+The robustness model's pseudo-R² was 0.0317.
 
-### 6.2 Adjusted Predictor Results
+### 6.4 Interpretation
 
-| Predictor | Coefficient | P-value | Interpretation |
-|---|---:|---:|---|
-| NAADS training participation | 0.4113 | .178 | Not statistically significant |
-| Farmer-group membership | 0.5651 | .138 | Not statistically significant |
-| Centered household-head age | -0.0017 | .721 | Not statistically significant |
-| Centered age squared | -0.0002 | .505 | Not statistically significant |
-| Male household head | 0.6167 | .0002 | Statistically significant positive association |
+NAADS training participation and farmer-group membership showed strong
+bivariate associations with adoption (+10.3
+and +12.3 percentage points respectively) but
+did not reach statistical significance in the adjusted model. This
+pattern is consistent with confounding — male-headed households were
+more likely to participate in both programs, and once head sex is
+controlled for, the direct effects are no longer distinguishable from
+zero in this sample.
 
-The estimated odds ratio for male-headed households was approximately
-1.85, with an approximate 95% confidence interval of 1.34 to 2.56.
-Conditional on the other variables in the model, male-headed
-households had higher estimated odds of adoption than female-headed
-households.
+The model's McFadden pseudo-R² of 0.0159 indicates that
+the observed predictors explain only a small share of adoption
+behavior. This is typical of cross-sectional adoption studies and
+points to important unobserved factors (input prices, market access,
+extension contact, plot-level characteristics).
 
-This is an observational association and does not establish a
-causal effect. The model does not account for all potential
-confounding factors.
+## 7. Seasonal Inconsistency
 
-## 7. Predictive Modelling
-
-Predictive evaluation used 1,962 complete observations, split into
-1,569 training records and 393 test records. The test set contained
-50 adopters and 343 non-adopters.
-
-Predictors included NAADS training participation, farmer-group
-membership, household-head age and sex.
-
-### 7.1 Test-Set Performance
-
-| Metric | Standard logistic model | Class-weighted model |
-|---|---:|---:|
-| ROC AUC | 0.5394 | 0.5524 |
-| Accuracy | 87.28% | 45.29% |
-| Balanced accuracy | 50.00% | 53.28% |
-| Precision | 0.00% | 13.97% |
-| Recall | 0.00% | 64.00% |
-| F1-score | 0.0000 | 0.2294 |
-
-The standard model classified all test observations as non-adopters
-at the default threshold of 0.50. Its high accuracy therefore
-concealed its failure to identify adopters.
-
-The class-weighted model identified 32 of the 50 adopters but
-incorrectly classified 197 non-adopters as adopters. Its ROC AUC
-of 0.5524 indicates weak discrimination.
-
-The models should be treated as exploratory baselines, not as
-deployment-ready prediction systems. Threshold selection should
-be based on validation data and the intended practical objective.
+Of the 363 classified adopters, **207
+(57.0%)** reported improved-seed use in only one of the
+two agricultural seasons. The remaining 156
+used improved seeds consistently across visits. This finding suggests
+that for many Ugandan farming households, improved-seed adoption is
+a seasonal strategy rather than a year-round practice.
 
 ## 8. Limitations
 
-1. The analysis is observational and does not establish causation.
-2. Survey sampling weights, strata and clustering were not
-   incorporated into the reported statistical tests or regression.
-3. The data are from a national Ugandan survey and are not
-   specifically representative of Kibalinga Sub-County.
-4. Adoption was operationalized using improved-seed crop records;
-   it is not a comprehensive measure of every agricultural technology.
-5. Missing and skipped responses may affect the available analysis
-   samples. Unknown outcomes were not treated as non-adopters.
-6. The complete-case models use 1,962 households, fewer than the
-   1,978 households with known adoption outcomes.
-7. Crop-level records from the same household are not independent.
-8. The predictive models use a limited set of predictors and show
-   weak test-set discrimination.
-9. Predictive performance was assessed using one train-test split,
-   so results may vary across different samples.
+1. **Observational design.** The analysis is cross-sectional and
+   cannot establish causal relationships.
+2. **Low explanatory power.** The model's pseudo-R² of 0.0159
+   indicates that most variation in adoption is not captured by the
+   available predictors.
+3. **Survey weights.** Reported rates are weighted with the
+   cross-sectional household weight. Full design-based variance
+   estimation (accounting for clustering and stratification) was
+   not performed.
+4. **Seasonal definition.** Improved-seed adoption is operationally
+   defined from the two agricultural visits and may not capture
+   continuous or crop-specific behavior.
+5. **Sample scope.** The UNPS is a national sample and is not
+   specifically representative of any single sub-county or district.
+6. **Unresolved cases.** 33 households had no visit data in either
+   agricultural file and were excluded from the analysis.
 
 ## 9. Recommendations
 
-- Incorporate the survey's weights, strata and clustering when
-  conducting population-level inference, using appropriate methods.
-- Investigate additional predictors supported by the survey and
-  relevant agricultural theory.
-- Assess missing-data patterns and explain complete-case exclusions.
-- Evaluate predictive stability with an appropriate validation
-  strategy and compare models against simple baselines.
-- Examine probability calibration and class-specific performance.
-- Select classification thresholds using validation data and a
-  clearly stated decision objective.
-- Avoid making claims about Kibalinga Sub-County without data and
-  a sampling design suitable for that population.
+- Investigate additional correlates of adoption (education,
+  extension contact, farm size, asset wealth) in future waves.
+- Apply design-based variance estimation for population-level
+  inference.
+- Analyze seasonal inconsistency as an outcome in its own right.
+- Consider panel-wave linkage for longitudinal adoption trajectories.
 
 ## 10. Conclusion
 
-In this exploratory analysis, improved-seed adoption was observed
-in 12.74% of households with known adoption outcomes. Unadjusted
-tests found small associations between adoption and NAADS training,
-farmer-group membership, and household-head sex. In the adjusted
-model, household-head sex remained statistically significant, while
-training participation, group membership and age terms did not.
+In the 2018/19 UNPS analytical sample, 18.73% of
+agricultural households used improved seeds at least once during the
+survey year, with the weighted estimate at 19.81%.
+Household-head sex was the only robust predictor of adoption in the
+adjusted model. NAADS training and farmer-group membership showed
+substantial bivariate associations that attenuated after adjustment.
+The prevalence of seasonal inconsistency among adopters highlights
+the importance of careful adoption definitions in panel surveys.
 
-The expanded logistic regression improved fit over the baseline
-model, but explanatory power remained limited. Predictive evaluation
-also showed weak discrimination, even with class weighting.
+---
 
-These findings provide a starting point for further analysis.
-Survey-design-aware inference, stronger predictor selection and
-additional validation are necessary before drawing population-level
-or operational conclusions.
+*This report was regenerated automatically from the analytical
+pipeline. All numbers reflect the latest fitted models and dataset.*
+
+
+## Survey-Design Limitation
+
+The UNPS 2018/19 public-use files include a cross-sectional
+household weight (`wgt`) but do not include primary sampling
+unit (PSU), cluster, or stratum identifiers. The community
+files carry an Enumeration Area code (`EA_code`), but no
+shared key links them to household records. The `batch`
+variable is a fieldwork enumeration code (median 1 household
+per batch), not a sampling cluster, and cannot serve as a
+PSU proxy.
+
+Consequently, this analysis reports:
+
+- **Weighted point estimates** using `wgt`.
+- **Unweighted estimates** as a sensitivity comparison.
+- **Unadjusted standard errors** and p-values.
+
+The reported confidence intervals and hypothesis tests are
+therefore **not design-based**. They should be treated as
+descriptive summaries of the observed sample, not as
+inferential statements about the UNPS target population.
+A fully design-adjusted analysis would require access to
+the restricted-use files containing PSU and stratum
+identifiers, or the original survey design specification.
+
+Panel weights (`hwgt_W7`, `hwgt_wc`) are available with
+approximately 5.9% missingness and are reported as a
+sensitivity check only.
+

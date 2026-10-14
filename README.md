@@ -145,12 +145,55 @@ This project is a portfolio demonstration and a foundation for further methodolo
 
 ## Current Status
 
-The project contains an initial agricultural technology adoption case study, including exploratory analysis, association tests, logistic regression, predictive evaluation, and a consolidated analysis report.
+The project contains an initial agricultural technology
+adoption case study, including:
 
-Future improvements may include survey-design-adjusted estimates, additional diagnostics, automated tests, reusable analysis functions, and a dashboard.
+- Exploratory analysis and descriptive statistics
+- Chi-square association tests
+- Logistic regression (baseline and expanded models)
+- Exploratory predictive evaluation
+- Weighted and unweighted point estimates
+- A consolidated analysis report
 
-## Author
+A survey-design audit has been completed. It confirmed that:
 
-**Ronald Kabanda**
+- A cross-sectional weight (`wgt`) is available and used
+  for weighted point estimates.
+- Panel weights (`hwgt_W7`, `hwgt_wc`) are available with
+  ~5.9% missingness and are reported as a sensitivity check.
+- No PSU, cluster, or stratum identifiers are present in
+  the public-use files.
+- The community `EA_code` cannot be linked to household
+  records because no shared key exists.
+- The `batch` variable is a fieldwork enumeration code,
+  not a sampling cluster.
 
-ResearchPro Analytics is a continuing portfolio project focused on applied statistics, survey research, and responsible data analysis.
+As a result, reported standard errors and p-values are
+**not design-based**. They are descriptive summaries of
+the observed sample.
+
+Future improvements may include design-adjusted estimates
+using restricted-use files, additional diagnostics,
+automated tests, reusable analysis functions, and a
+dashboard.
+
+
+## Running the Tests
+
+The project includes an automated test suite that validates the
+reusable modules in src/.
+
+After installing dependencies, run:
+
+    python -m pytest tests/ -v
+
+Expected result: 25 tests pass, 0 fail.
+
+The test suite covers:
+
+- test_seed_outcome.py — validates the crop-level improved-seed
+  outcome rules against the questionnaire coding.
+- test_household_aggregation.py — validates the household-level
+  adoption classification rules.
+- test_modelling.py — validates the logistic regression and
+  prediction-evaluation helpers.

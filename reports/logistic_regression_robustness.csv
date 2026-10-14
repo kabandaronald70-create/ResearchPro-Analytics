@@ -1,0 +1,9 @@
+Model,Predictor,Predictor_Label,Coefficient,Odds_Ratio,CI_Lower,CI_Upper,P_Value,Observations,Pseudo_R2,LR_P_Value
+"Robustness model (seasonally consistent, n=1731)",const,Intercept,-2.9877,0.0504,0.0241,0.1055,0.0,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",naads_training_participation,NAADS training participation,0.3353,1.3984,0.6562,2.9799,0.385,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",farmer_group_member_clean,Farmer-group membership,0.6781,1.9702,0.7792,4.9814,0.1519,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",head_age_centered,Household-head age (centered),-0.0054,0.9947,0.9823,1.0071,0.3994,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",head_age_centered_sq,Household-head age squared (centered),-0.0005,0.9995,0.9988,1.0002,0.1955,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",head_sex_Male,Male household head (reference: Female),1.0541,2.8695,1.6462,5.0018,0.0002,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",marital_collapsed_Married,Married (reference: Divorced/separated),-0.1084,0.8972,0.4228,1.904,0.7776,1731,0.0317,0.0
+"Robustness model (seasonally consistent, n=1731)",marital_collapsed_Widowed/never,Widowed or never married (reference: Divorced/separated),0.0601,1.0619,0.4333,2.6028,0.8955,1731,0.0317,0.0
