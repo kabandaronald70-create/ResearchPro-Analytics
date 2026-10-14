@@ -1,0 +1,7 @@
+# Auto-strip notebook outputs on git add (works with nbstripout filter)
+*.ipynb filter=nbstripout
+
+# Normalize line endings
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
