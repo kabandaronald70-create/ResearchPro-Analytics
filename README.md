@@ -1,8 +1,12 @@
 # ResearchPro Analytics
 
+![Tests](https://github.com/kabandaronald70-create/ResearchPro-Analytics/actions/workflows/tests.yml/badge.svg)
+
 ## 🔗 Live Dashboard
 
 Explore the results interactively:
+
+![Dashboard screenshot](docs/dashboard_screenshot.png)
 
 **[researchpro-analytics.streamlit.app](https://researchpro-analytics-zmki4p7ztkb4ffghg6kcnc.streamlit.app/)**
 
@@ -210,3 +214,30 @@ The test suite covers:
   adoption classification rules.
 - test_modelling.py — validates the logistic regression and
   prediction-evaluation helpers.
+
+## Data Availability
+
+The raw survey microdata used in this project are **not** included
+in this repository. The Uganda National Panel Survey (UNPS) 2018/19
+is collected by the Uganda Bureau of Statistics with support from
+the World Bank under the Living Standards Measurement Study —
+Integrated Surveys on Agriculture (LSMS-ISA) program.
+
+Researchers who wish to reproduce the analysis should obtain the
+UNPS 2018/19 files through the official World Bank LSMS-ISA data
+catalog (https://microdata.worldbank.org) and place them in a
+local `data/raw/` directory. The project's `.gitignore` excludes
+this directory to prevent accidental commits of restricted-use
+or identifiable records.
+
+The repository includes:
+
+- All source code (`src/`)
+- Test suite (`tests/`)
+- Analytical reports (`reports/`)
+- The analysis notebook (`notebooks/`), committed with outputs cleared
+- The interactive dashboard (`dashboard/`)
+
+Reported results can be verified against the public-use files
+alone; no restricted-use identifiers are required to reproduce
+any part of the committed analysis.
